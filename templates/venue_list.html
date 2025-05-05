@@ -1,54 +1,99 @@
-<!-- templates/venue_list.html -->
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Venues | RiffMates{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-  <div class="d-flex justify-content-between align-items-center bg-white p-4 shadow-sm rounded mb-4">
-    <h1 class="display-5 text-dark m-0">
-      <i class="bi bi-building me-2"></i>All Venues
-    </h1>
-    <a href="" class="btn btn-success">
-      <i class="bi bi-plus-circle me-1"></i> Add Venue
-    </a>
-  </div>
+<style>
+    .venue-header {
+        background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
+    }
+    .venue-card {
+        border: none;
+        border-radius: 15px;
+        transition: transform 0.2s ease;
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    }
+    .venue-card:hover {
+        transform: translateY(-5px);
+    }
+    .room-item {
+        border-radius: 8px;
+        margin: 8px 0;
+        border-left: 3px solid #3b82f6;
+    }
+</style>
 
-  <div class="row g-4">
-    {% for venue in venues %}
-    <div class="col-md-6">
-      <div class="card h-100 shadow-sm">
-        <div class="card-header bg-dark text-white">
-          <h5 class="m-0">{{ venue.name }}</h5>
+<div class="container mt-4">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center venue-header text-white p-4 mb-4">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-building fs-1 me-3"></i>
+            <h1 class="display-6 fw-bold m-0">Music Venues</h1>
         </div>
-        <div class="card-body">
-          <h6 class="mb-3">
-            <i class="bi bi-door-open me-2"></i>
-            Rooms ({{ venue.room_set.count }})
-          </h6>
-          <ul class="list-group list-group-flush">
-            {% for room in venue.room_set.all %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              {{ room.name }}
-              <!-- <span class="badge bg-secondary">Capacity: N/A</span> -->
-            </li>
-            {% empty %}
-            <li class="list-group-item text-muted">
-              No rooms available for this venue
-            </li>
-            {% endfor %}
-          </ul>
+        
+    </div>
+
+    <!-- Venues Grid -->
+    <div class="row g-4">
+        {% for venue in venues %}
+        <div class="col-md-6">
+            <div class="venue-card h-100 shadow-lg">
+                <div class="card-header bg-blue-600 text-white py-3">
+                    <h5 class="m-0 d-flex justify-content-between align-items-center">
+                        {{ venue.name }}
+                        <span class="badge bg-blue-100 text-blue-600">
+                            {{ venue.room_set.count }} room{{ venue.room_set.count|pluralize }}
+                        </span>
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-door-open fs-5 text-blue-600 me-2"></i>
+                        <h6 class="m-0 text-slate-700">Facility Details</h6>
+                    </div>
+                    <ul class="list-unstyled">
+                        {% for room in venue.room_set.all %}
+                        <li class="room-item p-3 bg-white shadow-sm d-flex justify-content-between">
+                            <span class="text-slate-800">{{ room.name }}</span>
+                            <span class="text-slate-500 small">Capacity: N/A</span>
+                        </li>
+                        {% empty %}
+                        <li class="text-center py-3">
+                            <div class="alert-empty rounded-lg p-3">
+                                <i class="bi bi-door-closed text-blue-600 me-2"></i>
+                                No rooms available
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="empty-state bg-blue-50 rounded-xl p-5 text-center shadow-sm">
+                <i class="bi bi-building-slash text-blue-600 fs-1 mb-3"></i>
+                <h4 class="text-slate-800 mb-2">No Venues Found</h4>
+                <p class="text-slate-600 mb-0">Be the first to add a music venue</p>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-    {% empty %}
-    <div class="col-12">
-      <div class="alert alert-warning">
-        <i class="bi bi-exclamation-triangle me-2"></i>
-        No venues found.
-      </div>
-    </div>
-    {% endfor %}
-  </div>
 </div>
+
+<!-- Additional Styles -->
+<style>
+    .alert-empty {
+        background: #e0f2fe;
+        color: #0369a1;
+        border: 2px dashed #7dd3fc;
+    }
+    .btn-light {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+</style>
 {% endblock %}

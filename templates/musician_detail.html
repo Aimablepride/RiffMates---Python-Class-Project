@@ -4,61 +4,114 @@
 {% block title %}{{ musician.first_name }} {{ musician.last_name }} | RiffMates{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="card shadow-lg border-0">
+<style>
+    .profile-header {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        border-radius: 0 0 30px 30px;
+        box-shadow: 0 4px 6px rgba(79, 70, 229, 0.1);
+    }
+    .age-badge {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .bio-quote {
+        border-left: 4px solid #818cf8;
+        background: #f8fafc;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="card border-0 overflow-hidden shadow-lg">
         <!-- Header Section -->
-        <div class="bg-dark text-white text-center py-5 position-relative">
-            <h1 class="display-4 fw-bold mb-3">
-                {{ musician.first_name }} <span class="text-success">{{ musician.last_name }}</span>
+        <div class="profile-header text-center py-5 position-relative">
+            <h1 class="display-4 fw-bold text-white mb-3">
+                {{ musician.first_name }} 
+                <span class="text-indigo-200">{{ musician.last_name }}</span>
             </h1>
-            <div class="badge rounded-pill bg-success text-dark px-3 py-2 shadow-sm">
-                <i class="bi bi-balloon me-2"></i>
-                Born {{ musician.birth|date:"F j, Y" }}
+            <div class="age-badge rounded-pill text-white px-4 py-2 d-inline-block">
+                <i class="bi bi-calendar2-heart me-2"></i>
+                {{ musician.birth|timesince }} young
             </div>
+            <div class="wave-divider"></div>
         </div>
 
         <!-- Main Body -->
-        <div class="card-body">
-            <div class="row g-5">
+        <div class="card-body px-4 pt-4">
+            <div class="row g-4">
                 <!-- Left Column -->
                 <div class="col-lg-8">
-                    <div class="mb-4">
-                        <div class="bg-dark text-white d-inline-block px-4 py-2 rounded shadow-sm">
-                            <i class="bi bi-clock-history me-2"></i>
-                            {{ musician.first_name }} is {{ musician.birth|timesince }} old
+                    <div class="mb-5">
+                        <h3 class="mb-4 text-indigo-600">
+                            <i class="bi bi-pen-fill me-2"></i>
+                            Artist Biography
+                        </h3>
+                        <div class="bio-quote p-4 rounded-lg">
+                            <p class="fst-italic text-slate-700 lead mb-0">
+                                "{{ musician.bio|default:"A visionary musician shaping soundscapes with every note..." }}"
+                            </p>
                         </div>
                     </div>
-
-                    <h3 class="mb-3 border-bottom pb-2">
-                        <i class="bi bi-journal-text me-2 text-primary"></i>
-                        Biography
-                    </h3>
-                    <p class="fst-italic text-muted lead">
-                        "{{ musician.bio|default:"A talented musician whose story is yet to be written..." }}"
-                    </p>
                 </div>
 
                 <!-- Right Column (Sidebar) -->
-                <div class="col-lg-4 text-center">
-                    <div class="mb-4">
-                        <div class="rounded-circle bg-light d-flex justify-content-center align-items-center mx-auto" style="width: 200px; height: 200px;">
-                            <i class="bi bi-person-gear text-secondary" style="font-size: 6rem;"></i>
+                <div class="col-lg-4">
+                    <div class="mb-5 text-center">
+                        <div class="avatar-wrapper mx-auto mb-4">
+                            <div class="avatar-gradient rounded-circle d-flex justify-content-center align-items-center">
+                                <i class="bi bi-person-vcard text-white" style="font-size: 3.5rem;"></i>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="d-grid gap-3">
-                        <a href="{% url 'bands' %}" class="btn btn-outline-dark btn-lg py-2">
-                            <i class="bi bi-people me-2"></i>
-                            View All Bands
-                        </a>
-                        <a href="#" class="btn btn-success btn-lg py-2">
-                            <i class="bi bi-mic me-2"></i>
-                            View Performances
-                        </a>
+                        <div class="d-grid gap-3">
+                            <a href="{% url 'bands' %}" 
+                               class="btn btn-indigo rounded-pill py-3 shadow-sm">
+                                <i class="bi bi-people-fill me-2"></i>
+                                Explore Bands
+                            </a>
+                            <a href="#" 
+                               class="btn btn-teal rounded-pill py-3 shadow-sm d-flex align-items-center justify-content-center">
+                                <i class="bi bi-mic-mute-fill me-2"></i>
+                                Live Performances
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Additional Styles -->
+<style>
+    .wave-divider {
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 320' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M0,160L48,138.7C96,117,192,75,288,64C384,53,480,75,576,106.7C672,139,768,181,864,186.7C960,192,1056,160,1152,128C1248,96,1344,64,1392,48L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+    }
+    .avatar-gradient {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        width: 200px;
+        height: 200px;
+        box-shadow: 0 10px 15px rgba(79, 70, 229, 0.1);
+    }
+    .btn-indigo {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+        border: none;
+        transition: transform 0.2s ease;
+    }
+    .btn-teal {
+        background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+        color: white;
+        border: none;
+        transition: transform 0.2s ease;
+    }
+    .btn-indigo:hover, .btn-teal:hover {
+        transform: translateY(-2px);
+    }
+</style>
 {% endblock %}

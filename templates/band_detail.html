@@ -5,42 +5,73 @@
 {% block title %}{{ band.name }} | RiffMates{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="card shadow-lg border-0">
-        <div class="bg-dark text-white text-center py-5">
-            <h1 class="display-4 fw-bold mb-3">
+<style>
+    .band-header {
+        background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+        border-radius: 0 0 30px 30px;
+        box-shadow: 0 4px 6px rgba(14, 165, 233, 0.1);
+    }
+    .member-card {
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        border: none;
+        border-radius: 15px;
+        transition: transform 0.2s ease;
+    }
+    .member-card:hover {
+        transform: translateY(-5px);
+    }
+    .empty-band-alert {
+        background: #e0f2fe;
+        color: #0369a1;
+        border: 2px dashed #7dd3fc;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="card border-0 overflow-hidden">
+        <!-- Band Header -->
+        <div class="band-header text-white text-center py-4 position-relative">
+            <h1 class="display-5 fw-bold mb-0">
+                <i class="bi bi-vinyl-fill me-2" style="color: #c4b5fd"></i>
                 {{ band.name }}
             </h1>
+            <div class="position-absolute bottom-0 start-0 w-100">
+                <div class="wave-divider" style="height: 30px; background: #ffffff"></div>
+            </div>
         </div>
 
-        <div class="card-body">
-            <h3 class="mb-4">
-                <i class="bi bi-people-fill me-2"></i>
+        <!-- Band Content -->
+        <div class="card-body px-4 pt-4">
+            <h3 class="mb-4 text-slate-800">
+                <i class="bi bi-people-fill me-2 text-teal-600"></i>
                 Band Members
             </h3>
             
-            <div class="row g-3">
+            <div class="row g-4">
                 {% for musician in band.musicians.all %}
                 <div class="col-md-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">
+                    <div class="member-card h-100 p-3 shadow-sm">
+                        <div class="card-body p-3">
+                            <h5 class="card-title text-slate-800 mb-3">
                                 {{ musician.first_name }} {{ musician.last_name }}
                             </h5>
-                            <p class="card-text text-muted">
+                            <p class="card-text text-slate-500 small mb-4">
+                                <i class="bi bi-calendar3 me-1"></i>
                                 Born {{ musician.birth|date:"F j, Y" }}
                             </p>
-                            <a href="{% url 'musician_detail' musician.id %}" class="btn btn-sm btn-outline-primary">
-                                View Profile
+                            <a href="{% url 'musician_detail' musician.id %}" 
+                               class="btn btn-sm btn-teal rounded-pill px-4">
+                               <i class="bi bi-person-circle me-2"></i>
+                               View Profile
                             </a>
                         </div>
                     </div>
                 </div>
                 {% empty %}
                 <div class="col-12">
-                    <div class="alert alert-warning">
-                        <i class="bi bi-exclamation-triangle me-2"></i>
-                        This band currently has no members.
+                    <div class="empty-band-alert rounded-xl p-4 text-center">
+                        <i class="bi bi-person-x-fill h4 text-teal-600 me-2"></i>
+                        <span class="h5 mb-0">This band is currently looking for members</span>
                     </div>
                 </div>
                 {% endfor %}

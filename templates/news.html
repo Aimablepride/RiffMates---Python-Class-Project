@@ -3,14 +3,75 @@
 {% block title %}News | RiffMates{% endblock %}
 
 {% block content %}
-  <h1 class="fs-2 fw-bold mb-4 text-primary">📰 Latest News</h1>
-  <div class="bg-white p-4 rounded shadow-sm border">
-    <ul class="ps-4 mb-0">
-      {% for item in news %}
-        <li class="text-dark fs-5 mb-2">{{ item }}</li>
-      {% empty %}
-        <li class="text-muted fst-italic">No news available at the moment.</li>
-      {% endfor %}
-    </ul>
-  </div>
+<style>
+    .news-card {
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(79, 70, 229, 0.05);
+    }
+    .news-item {
+        padding: 1.25rem;
+        margin: 0.5rem 0;
+        background: white;
+        border-left: 4px solid #6366f1;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+    .news-item:hover {
+        transform: translateX(8px);
+        box-shadow: 0 2px 4px rgba(99, 102, 241, 0.1);
+    }
+    .news-bullet {
+        width: 8px;
+        height: 8px;
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        border-radius: 50%;
+    }
+</style>
+
+<div class="container py-5">
+    <!-- Header -->
+    <div class="d-flex align-items-center mb-5">
+        <div class="icon-wrapper bg-primary-gradient text-white rounded-circle p-3 me-3">
+            <i class="bi bi-newspaper fs-3"></i>
+        </div>
+        <h1 class="display-5 fw-bold text-slate-800 m-0">
+            Music Pulse
+        </h1>
+    </div>
+
+    <!-- News Container -->
+    <div class="news-card p-4">
+        {% if news %}
+        <div class="list-unstyled mb-0">
+            {% for item in news %}
+            <div class="news-item d-flex align-items-start">
+                <div class="news-bullet mt-2 me-3"></div>
+                <div class="text-slate-700 fs-5">{{ item }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <div class="empty-state bg-indigo-50 rounded-lg p-4 mx-auto" style="max-width: 400px">
+                <i class="bi bi-megaphone text-indigo-600 fs-1 mb-3"></i>
+                <p class="text-slate-600 mb-0 fs-5">
+                    Stay tuned! Fresh updates are coming soon.
+                </p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Additional Styles -->
+<style>
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    }
+    .empty-state {
+        border: 2px dashed rgba(99, 102, 241, 0.3);
+    }
+</style>
 {% endblock %}
