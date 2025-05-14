@@ -1,7 +1,9 @@
 from django.shortcuts import render,get_object_or_404
 from .models import Musician 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
+from django.contrib.auth.decorators import login_required  
+from django.shortcuts import render
+from django.http import Http404 
 
 def viewAllBands(request):
     musicians_list = Musician.objects.all()
@@ -94,3 +96,50 @@ def band_detail(request, id):
 def venue_list(request):
     venues = Venue.objects.prefetch_related('room_set').all()
     return render(request, 'venue_list.html', {'venues': venues})
+
+
+
+@login_required 
+def restricted_page(request):
+    data = {
+        'title': 'Restricted Page',
+        'content': '<h1>You are logged in</h1>', 
+    }
+    
+    return render(request, "general.html", data)  
+
+
+@login_required
+def musician_restricted(request, musician_id):
+    musician = get_object_or_404(Musician, id=musician_id)
+    profile = request.user.userprofile  #2
+    allowed = False  #3
+
+    if profile.musician_profiles.filter( id=musician_id).exists():
+        allowed = True
+    else:
+        musician_profiles = set(profile.musician_profiles.all()  
+        )
+        for band in musician.band_set.all():
+            band_musicians = set(band.musicians.all())
+            if musician_profiles.intersection(
+                band_musicians):  
+                allowed = True  
+                break
+
+    if not allowed:  #8
+        raise Http404("Permission denied")
+
+    content = f"""<h1>Musician Page: {musician.last_name}</h1>
+    <p>{musician.first_name}</h1>
+    <p>{musician.last_name}</h1>
+    <p>{musician.birth}</h1>
+
+    """
+
+    data = {
+        'title': 'Musician Restricted',
+        'content': content,
+    }
+    
+    return render(request, 'template_name.html', data)  # Added missing return

@@ -1,8 +1,12 @@
 from typing import Any
 from django.contrib import admin
 from django.urls import reverse
+
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User 
+
 from django.utils.html import format_html
-from band.models import Musician,Band
+from band.models import Musician,Band,UserProfile
 from datetime import datetime,date
 
 class DecadeListFilter(admin.SimpleListFilter):
@@ -49,5 +53,11 @@ class MusicianAdmin(admin.ModelAdmin):
 class BandAdmin(admin.ModelAdmin):
     search_fields = ('name__startswith',)
 
+class UserProfileInline(admin.StackedInline): 
+    model = UserProfile #5
+    can_delete = False
+class UserAdmin(BaseUserAdmin): 
+     inlines = [UserProfileInline] 
 
-       
+admin.site.unregister (User) 
+admin.site.register(User, UserAdmin)
