@@ -4,6 +4,10 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.decorators import login_required  
 from django.shortcuts import render
 from django.http import Http404 
+from band.models import Musician,UserProfile
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
 
 def viewAllBands(request):
     musicians_list = Musician.objects.all()
@@ -142,4 +146,13 @@ def musician_restricted(request, musician_id):
         'content': content,
     }
     
-    return render(request, 'template_name.html', data)  # Added missing return
+    return render(request, 'template_name.html', data)  
+@receiver(post_save,sender=User)
+def create_user_profile(sender,**kwargs):
+    if kwargs['created'] and not kwargs['raw']:
+        user=kwargs['instance']
+        try:
+            UserProfile.objects.get(user = user)
+        except UserProfile.DoesNotExist:
+            UserProfile.objects.create(user=user)
+
