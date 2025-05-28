@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Seeking Ads</h1>
+<ul>
+    {% for ad in ads %}
+    <li>
+        <strong>{{ ad.get_seeking_display }}:</strong>
+        {{ ad.content|truncatewords:5 }}
+        <small>(Posted by {{ ad.owner }} on {{ ad.date }})</small>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

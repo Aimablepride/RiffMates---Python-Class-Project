@@ -23,7 +23,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
-    'band'
+    'band',
+    'content'
 ]
 
 MIDDLEWARE = [
@@ -80,10 +81,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# 👇 Added authentication settings 👇
-LOGIN_REDIRECT_URL = 'home'  # Redirect to home after login
-LOGIN_URL = 'login'          # Use named URL pattern for login
-LOGOUT_REDIRECT_URL = 'login' # Redirect to home after logout
+# Authentication settings
+LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'login'
+
+# Email configuration (LINE 70)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'

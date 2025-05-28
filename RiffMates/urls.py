@@ -19,6 +19,8 @@ from django.urls import path,include
 from home import views as home_views
 from band import views as bandViews
 from band import views
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,5 +35,12 @@ urlpatterns = [
     path('venues/', bandViews.venue_list, name='venue_list'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('restricted_page/',bandViews.restricted_page,name='restricted_page'),
-    path('musician_restricted/<int:musician_id>/', views.musician_restricted, name='restricted_musician'),
+    path('musician_restricted/<int:musician_id>/', views.musician_restricted,name='restricted_musician'),
+    
+    path('accounts/password_reset/',auth_views.PasswordResetView.as_view(),name='password_reset'),
+    path('accounts/password_reset/done/',auth_views.PasswordResetDoneView.as_view(),name='password_reset_done'),
+    path('accounts/reset/<uidb19>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
+    path('accounts/reset/done/',auth_views.PasswordResetCompleteView.as_view(),name='password_reset_complete'),
+    path('content/', include('content.urls')),
+
 ]
