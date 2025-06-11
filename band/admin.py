@@ -6,7 +6,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User 
 
 from django.utils.html import format_html
-from band.models import Musician,Band,UserProfile
+from band.models import Musician,Band,UserProfile,Venue,Room
 from datetime import datetime,date
 
 class DecadeListFilter(admin.SimpleListFilter):
@@ -61,3 +61,29 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.unregister (User) 
 admin.site.register(User, UserAdmin)
+
+@admin.register(Venue)
+class VenueAdmin(admin. ModelAdmin):
+    list_display = ("id", "name", "show_rooms")
+    search_fields = ("name",)
+
+    def show_rooms(self, obj):
+        rooms = obj.room_set.all()
+        if len(rooms) == 0:
+            return format_html("<i>None</i>")
+        plural =""
+        if len(rooms) > 1:
+            plural = "5"
+        parm = "?id__in=" + ",".join([str(b.id) for b in rooms])
+        url = reverse("admin:bands_room_changelist") + parm
+        return format_html('<a href="{}">Room{}</a>', url, plural)
+    
+    show_rooms.short_description = "Rooms"
+
+@admin.register(Room)
+class RoomAdmin(admin. ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+    )
+    search_fields = ("name",)

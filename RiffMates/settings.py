@@ -97,6 +97,7 @@ USE_TZ = True
 
 # Static files
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [ BASE_DIR / "static" ]
 
-# Default primary key field
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+MEDIA_ROOT = BASE_DIR.parent/ 'outside/RiffMates/uploads'
+MEDIA_URL = '/media/'

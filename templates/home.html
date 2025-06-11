@@ -6,25 +6,40 @@
 {% block content %}
 <div class="welcome-section">
     <div class="content-wrapper">
-        <h1 class="display-3 fw-bold mb-4">
-            <span class="gradient-text">🎸 Welcome to Riffmates News</span>
-        </h1>
-        <p class="lead-text mt-3">
-            Dive into the rhythm of real stories, breaking updates, and music that<br>
-            speaks. This is where riffs meet reality.
-        </p>
-        <a href="{% url 'news' %}" class="cta-button">
-            Start Reading
-            <i class="bi bi-arrow-right-short"></i>
-        </a>
+        <img src="{% static 'img/logo.png' %}" alt="RiffMates Logo" width="200" class="logo">
+        
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'news' %}" class="nav-link">News</a></li>
+                <li><a href="{% url 'band_list' %}" class="nav-link">Bands</a></li>
+                <li><a href="{% url 'venue_list' %}" class="nav-link">Venues</a></li>
+                <li><a href="{% url 'list_ads' %}" class="nav-link">Classified Ads</a></li>
+                <li><a href="{% url 'comment' %}" class="nav-link">Leave a comment</a></li>
+            </ul>
+        </nav>
+
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="gradient-text">🎸 Welcome to Riffmates News</span>
+            </h1>
+            <p class="hero-subtitle">
+                Dive into the rhythm of real stories, breaking updates, and music that<br>
+                speaks. This is where riffs meet reality.
+            </p>
+            <a href="{% url 'news' %}" class="cta-button">
+                Start Reading
+                <i class="bi bi-arrow-right-short"></i>
+            </a>
+        </div>
     </div>
     <div class="wave-shape"></div>
 </div>
 
 <style>
+    /* Base Styles */
     .welcome-section {
         min-height: 100vh;
-        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         color: white;
         display: flex;
         align-items: center;
@@ -33,59 +48,160 @@
         padding: 2rem;
         position: relative;
         overflow: hidden;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .gradient-text {
-        background: linear-gradient(45deg, #fff 0%, #e0e7ff 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
+    .content-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+        z-index: 2;
     }
 
-    .lead-text {
-        font-size: 1.5rem;
+    /* Logo */
+    .logo {
+        margin-bottom: 2rem;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+
+    /* Navigation */
+    .main-nav {
+        margin-bottom: 3rem;
+    }
+
+    .nav-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+
+    .nav-link {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    /* Hero Content */
+    .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1.4rem;
         color: #e0e7ff;
         max-width: 600px;
-        margin: 0 auto;
+        margin: 0 auto 2.5rem;
         line-height: 1.6;
     }
 
+    /* Gradient Text */
+    .gradient-text {
+        background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
+    }
+
+    /* CTA Button */
     .cta-button {
         display: inline-flex;
         align-items: center;
-        padding: 1rem 2rem;
-        margin-top: 2rem;
-        background: linear-gradient(45deg, #4f46e5 0%, #7c3aed 100%);
-        color: white !important;
+        padding: 1rem 2.5rem;
+        margin-top: 1rem;
+        background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+        color: #1a1a2e !important;
         border-radius: 50px;
         text-decoration: none;
         font-weight: 600;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 2px solid rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(4px);
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        border: none;
     }
 
     .cta-button:hover {
         transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(45deg, #3a7bd5 0%, #00d2ff 100%);
     }
 
+    .cta-button i {
+        margin-left: 0.5rem;
+        font-size: 1.2rem;
+    }
+
+    /* Wave Shape */
     .wave-shape {
         position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 100px;
-        background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 320' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,128L48,138.7C96,149,192,171,288,160C384,149,480,107,576,112C672,117,768,171,864,181.3C960,192,1056,160,1152,138.7C1248,117,1344,107,1392,101.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+        height: 150px;
+        background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 320' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
         background-size: cover;
+        z-index: 1;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .hero-title {
+            font-size: 2.8rem;
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
     }
 
     @media (max-width: 768px) {
-        .display-3 {
-            font-size: 2.5rem;
+        .nav-list {
+            gap: 1rem;
         }
-        .lead-text {
-            font-size: 1.2rem;
+        .hero-title {
+            font-size: 2.2rem;
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+        }
+        .cta-button {
+            padding: 0.8rem 1.8rem;
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .content-wrapper {
+            padding: 1rem;
+        }
+        .nav-list {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .hero-title {
+            font-size: 1.8rem;
         }
     }
 </style>

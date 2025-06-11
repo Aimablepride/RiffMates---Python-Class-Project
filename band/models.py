@@ -39,6 +39,12 @@ class UserProfile(models.Model):
     blank=True)  #3
     venues_controlled = models.ManyToManyField(Venue, blank=True)
 
+class Venue(models.Model):
+    name = models.CharField(max_length=20)
+    description = models.TextField(blank=True)  
+    picture = models.ImageField(blank=True , null=True)
+    
+
 # Musicians
 # ● Bands
 # ● Classifieds

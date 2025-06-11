@@ -20,6 +20,8 @@ from home import views as home_views
 from band import views as bandViews
 from band import views
 from django.contrib.auth import views as auth_views
+from django.conf import settings  
+from django.conf.urls.static import static  
 
 
 urlpatterns = [
@@ -44,3 +46,9 @@ urlpatterns = [
     path('content/', include('content.urls')),
 
 ]
+
+
+
+if settings.DEBUG:  
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)  

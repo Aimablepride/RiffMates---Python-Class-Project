@@ -1,19 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
+{% if ad.owner == request.user %}
+    <a href="{% url 'edit_seeking_ad' ad.id %}">Edit</a>
+{% endif %}
 <h1>Musicians Seeking Bands</h1>
 {% for ad in seeking_band %}  <!-- #1 -->
     <p>
         {{ ad.date }} &mdash;
         {{ ad.musician.first_name }} {{ ad.musician.last_name }}  <!-- #2 -->
         <br/>
-        <i>{{ ad.content }}</i>  <!-- #3 -->
+        <i>{{ ad.content }}</i> 
+        {% if ad.owner == request.user %}
+        <a href="{% url 'edit_seeking_ad' ad.id %}">Edit</a>
+{% endif %}
+
+
     </p>
-{% empty %}  <!-- #4 -->
+{% empty %}  
     <p><i>No ads at this time</i></p>
 {% endfor %}
 
 <h1>Bands Seeking Musicians</h1>
-{% for ad in seeking_musician %}  <!-- #5 -->
+{% for ad in seeking_musician %}  
     <p>
         {{ ad.date }} &mdash; {{ ad.band.name }}
         <br/>
